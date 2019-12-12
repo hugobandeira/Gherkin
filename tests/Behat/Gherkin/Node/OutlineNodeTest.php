@@ -23,7 +23,7 @@ class OutlineNodeTest extends \PHPUnit_Framework_TestCase
             23 => array('example', 'example@example.com')
         ), 'Examples');
 
-        $outline = new OutlineNode(null, array(), $steps, array($table), null, null);
+        $outline = new OutlineNode(null, array(), $steps, $table, null, null);
 
         $this->assertCount(2, $examples = $outline->getExamples());
         $this->assertEquals(22, $examples[0]->getLine());
@@ -91,7 +91,7 @@ class OutlineNodeTest extends \PHPUnit_Framework_TestCase
             array('name', 'email')
         ), 'Examples');
 
-        $outline = new OutlineNode(null, array(), $steps, array($table), null, null);
+        $outline = new OutlineNode(null, array(), $steps, $table, null, null);
 
         $this->assertCount(0, $examples = $outline->getExamples());
     }
