@@ -1,0 +1,48 @@
+feature:
+  title:        Feature with background and example
+  language:     en
+  line:         1
+  description:  ~
+
+  background:
+    line:       3
+    steps:
+      - { keyword_type: Given, type: Given, text: a passing step, line: 4 }
+    examples:
+      6: [login, password]
+      7: ['', '']
+      8: [unknown_user, '']
+
+  scenarios:
+    -
+      type:     outline
+      title:    scenario1
+      line:     10
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 11 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 12 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 13 }
+      examples:
+        6: [ login, password ]
+        7: [ '' , '' ]
+        8: [ unknown_user , '' ]
+
+    - type:     scenario
+      title:    scenario2
+      line:     15
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 16 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "user"',       line: 17 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "password"', line: 18 }
+
+    - type:     outline
+      title:    scenario3
+      line:     20
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 21 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 22 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 23 }
+      examples:
+        25: [ login, password ]
+        26: [ hello, world ]
+        27: [ user , pass ]

@@ -52,7 +52,7 @@ class OutlineNode implements ScenarioInterface
      * @param null|string      $title
      * @param string[]         $tags
      * @param StepNode[]       $steps
-     * @param ExampleTableNode|ExampleTableNode[]  $tables
+     * @param null|ExampleTableNode|ExampleTableNode[]  $tables
      * @param string           $keyword
      * @param integer          $line
      */
@@ -156,6 +156,18 @@ class OutlineNode implements ScenarioInterface
     public function hasExamples()
     {
         return 0 < count($this->tables);
+    }
+
+    /**
+     * Add Example to the outline.
+     *
+     * @param ExampleTableNode
+     *
+     * @return void
+     */
+    public function setExampleTable($table)
+    {
+        $this->tables = $table;
     }
 
     /**
