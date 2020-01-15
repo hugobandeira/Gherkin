@@ -11,6 +11,7 @@
 namespace Behat\Gherkin\Loader;
 
 use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\OutlineNode;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -57,6 +58,13 @@ class YamlFileLoader extends AbstractFileLoader
         $filename = $this->findRelativePath($path);
 
         return array_map(function (FeatureNode $feature) use ($filename) {
+            if ($feature->getBackground() !== null && $feature->getBackground()->hasExamples()) {
+                foreach ($feature->getScenarios() as $scenario) {
+                    if ($scenario instanceof OutlineNode && !$scenario->hasExamples()){
+                        $scenario->setExampleTable($feature->getBackground()->getExamples());
+                    }
+                }
+            }
             return new FeatureNode(
                 $feature->getTitle(),
                 $feature->getDescription(),

@@ -275,6 +275,26 @@ class Parser
             }
         }
 
+        if ($background === null || !$background->hasExamples()) {
+            foreach ($scenarios as $scenario) {
+                if ($scenario instanceof OutlineNode && !$scenario->hasExamples()) {
+                    throw new ParserException(sprintf(
+                        'Outline should have examples table, but got none for outline "%s" on line: %d%s',
+                        rtrim($scenario->getTitle()),
+                        $scenario->getLine(),
+                        $this->file ? ' in file: ' . $this->file : ''
+                    ));
+                }
+            }
+        }
+        if ($background !== null && $background->hasExamples()) {;
+            foreach ($scenarios as $scenario) {
+                if ($scenario instanceof OutlineNode && !$scenario->hasExamples()) {
+                    $scenario->setExampleTable($background->getExamples());
+                }
+            }
+        }
+
         return new FeatureNode(
             rtrim($title) ?: null,
             rtrim($description) ?: null,
@@ -302,6 +322,7 @@ class Parser
         $title = trim($token['value']);
         $keyword = $token['keyword'];
         $line = $token['line'];
+        $example = null;
 
         if (count($this->popTags())) {
             throw new ParserException(sprintf(
@@ -313,9 +334,14 @@ class Parser
 
         // Parse description and steps
         $steps = array();
-        $allowedTokenTypes = array('Step', 'Newline', 'Text', 'Comment');
+        $allowedTokenTypes = array('Step', 'Newline', 'Text', 'Comment', 'Examples');
         while (in_array($this->predictTokenType(), $allowedTokenTypes)) {
             $node = $this->parseExpression();
+
+            if ($node instanceof ExampleTableNode) {
+                $example = $node;
+                continue;
+            }
 
             if ($node instanceof StepNode) {
                 $steps[] = $this->normalizeStepNodeKeywordType($node, $steps);
@@ -350,7 +376,7 @@ class Parser
             }
         }
 
-        return new BackgroundNode(rtrim($title) ?: null, $steps, $keyword, $line);
+        return new BackgroundNode(rtrim($title) ?: null, $steps, $keyword, $line, $example);
     }
 
     /**
@@ -468,15 +494,6 @@ class Parser
                     $this->file ? ' in file: ' . $this->file : ''
                 ));
             }
-        }
-
-        if (null === $examples) {
-            throw new ParserException(sprintf(
-                'Outline should have examples table, but got none for outline "%s" on line: %d%s',
-                rtrim($title),
-                $line,
-                $this->file ? ' in file: ' . $this->file : ''
-            ));
         }
 
         return new OutlineNode(rtrim($title) ?: null, $tags, $steps, $examples, $keyword, $line);

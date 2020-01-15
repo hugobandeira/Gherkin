@@ -49,18 +49,18 @@ class OutlineNode implements ScenarioInterface
     /**
      * Initializes outline.
      *
-     * @param null|string      $title
-     * @param string[]         $tags
-     * @param StepNode[]       $steps
-     * @param ExampleTableNode $table
-     * @param string           $keyword
-     * @param integer          $line
+     * @param null|string           $title
+     * @param string[]              $tags
+     * @param StepNode[]            $steps
+     * @param null|ExampleTableNode $table
+     * @param string                $keyword
+     * @param integer               $line
      */
     public function __construct(
         $title,
         array $tags,
         array $steps,
-        ExampleTableNode $table,
+        $table,
         $keyword,
         $line
     ) {
@@ -151,7 +151,19 @@ class OutlineNode implements ScenarioInterface
      */
     public function hasExamples()
     {
-        return 0 < count($this->table->getColumnsHash());
+        return $this->table !== null && 0 < count($this->table->getRows());
+    }
+
+    /**
+     * Add Example to the outline.
+     *
+     * @param ExampleTableNode
+     *
+     * @return void
+     */
+    public function setExampleTable($table)
+    {
+        $this->table = $table;
     }
 
     /**
