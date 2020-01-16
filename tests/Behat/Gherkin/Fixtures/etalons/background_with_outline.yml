@@ -1,5 +1,5 @@
 feature:
-  title:        Feature with background and example
+  title:        Feature with example in the background
   language:     en
   line:         1
   description:  ~
@@ -11,21 +11,18 @@ feature:
     examples:
       6: [login, password]
       7: ['', '']
-      8: [unknown_user, '']
+      8: [unknown_user, 'known_pass']
 
   scenarios:
     -
       type:     outline
-      title:    ~
+      title:    Scenario outline without example table
       line:     10
       steps:
-        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 11 }
+        - { keyword_type: 'Given', type: 'Given', text: 'I browse to the login page', line: 11 }
         - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 12 }
         - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 13 }
-      arguments:
-        -
-          type:   table
-          rows:
-            6: [ login, password ]
-            7: [ '' , '' ]
-            8: [ unknown_user , '' ]
+      examples:
+        6: [login, password]
+        7: ['', '']
+        8: [unknown_user, 'known_pass']
