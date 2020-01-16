@@ -1,5 +1,5 @@
 feature:
-  title:        Feature with background and example
+  title:        Feature with example in background and multiple scenarios
   language:     en
   line:         1
   description:  ~
@@ -11,35 +11,35 @@ feature:
     examples:
       6: [login, password]
       7: ['', '']
-      8: [unknown_user, '']
+      8: [unknown_user, known_pass]
 
   scenarios:
     -
       type:     outline
-      title:    scenario1
+      title:    Scenario outline without example
       line:     10
       steps:
-        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 11 }
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 11 }
         - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 12 }
         - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 13 }
       examples:
         6: [ login, password ]
         7: [ '' , '' ]
-        8: [ unknown_user , '' ]
+        8: [ unknown_user , known_pass ]
 
     - type:     scenario
-      title:    scenario2
+      title:    A regular scenario
       line:     15
       steps:
-        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 16 }
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 16 }
         - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "user"',       line: 17 }
         - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "password"', line: 18 }
 
     - type:     outline
-      title:    scenario3
+      title:    Scenario outline with it's own example table
       line:     20
       steps:
-        - { keyword_type: 'Given', type: 'Given', text: 'a failing step', line: 21 }
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 21 }
         - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 22 }
         - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 23 }
       examples:

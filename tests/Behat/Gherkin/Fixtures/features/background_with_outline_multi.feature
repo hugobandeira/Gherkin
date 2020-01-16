@@ -1,24 +1,24 @@
-Feature: Feature with background and example
+Feature: Feature with example in background and multiple scenarios
 
   Background:
     Given a passing step
     Examples:
-      | login | password |
-      |       |          |
-      | unknown_user |   |
+      | login        | password   |
+      |              |            |
+      | unknown_user | known_pass |
 
-  Scenario Outline: scenario1
-    Given a failing step
+  Scenario Outline: Scenario outline without example
+    Given I have browsed to login page
     When I fill in "login" with "<login>"
     And I fill in "password" with "<password>"
 
-  Scenario: scenario2
-    Given a failing step
+  Scenario: A regular scenario
+    Given I have browsed to login page
     When I fill in "login" with "user"
     And I fill in "password" with "password"
 
-  Scenario Outline: scenario3
-    Given a failing step
+  Scenario Outline: Scenario outline with it's own example table
+    Given I have browsed to login page
     When I fill in "login" with "<login>"
     And I fill in "password" with "<password>"
     Examples:
