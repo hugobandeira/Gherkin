@@ -260,6 +260,11 @@ class Parser
                 continue;
             }
 
+            if ($node instanceof ExampleTableNode) {
+                $background->addExample($node);
+                continue;
+            }
+
             if ($background instanceof BackgroundNode && $node instanceof BackgroundNode) {
                 throw new ParserException(sprintf(
                     'Each Feature could have only one Background, but found multiple on lines %d and %d%s',
@@ -293,7 +298,13 @@ class Parser
         } else {
             foreach ($scenarios as $scenario) {
                 if ($scenario instanceof OutlineNode && !$scenario->hasExamples()) {
-                    $scenario->setExampleTable($background->getExamples());
+                    if (is_array($background->getExamples())) {
+                        foreach ($background->getExamples() as $ex) {
+                            $scenario->setExampleTable($ex);
+                        }
+                    } else {
+                        $scenario->setExampleTable($background->getExamples());
+                    }
                 }
             }
         }
@@ -325,7 +336,7 @@ class Parser
         $title = trim($token['value']);
         $keyword = $token['keyword'];
         $line = $token['line'];
-        $example = null;
+        $example = [];
 
         if (count($this->popTags())) {
             throw new ParserException(sprintf(
@@ -342,7 +353,7 @@ class Parser
             $node = $this->parseExpression();
 
             if ($node instanceof ExampleTableNode) {
-                $example = $node;
+                $example[] = $node;
                 continue;
             }
 

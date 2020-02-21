@@ -36,6 +36,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $etalon = $this->parseEtalon($fixtureName . '.yml');
         $features = $this->parseFixture($fixtureName . '.feature');
 
+//        print_r($etalon->getBackground());
+//        print_r($features[0]->getBackground());
         $this->assertInternalType('array', $features);
         $this->assertEquals(1, count($features));
         $fixture = $features[0];

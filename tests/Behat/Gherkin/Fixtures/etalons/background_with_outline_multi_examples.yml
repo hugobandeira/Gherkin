@@ -1,0 +1,62 @@
+feature:
+  title:        Feature with multiple example in background and multiple scenarios
+  language:     en
+  line:         1
+  description:  ~
+
+  background:
+    line:       3
+    steps:
+      - { keyword_type: Given, type: Given, text: a passing step, line: 4 }
+    examples:
+      - 6: [login, password]
+        7: ['', '']
+        8: [unknown_user, known_pass]
+
+      -
+        tags: [specialChars]
+        table:
+          12: [login, password]
+          13: [$hello##, normalPass]
+          14: [normalUser, p@$$word]
+
+  scenarios:
+    -
+      type:     outline
+      title:    Scenario outline without example
+      line:     16
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 17 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 18 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 19 }
+      examples:
+        - 6: [login, password]
+          7: ['', '']
+          8: [unknown_user, known_pass]
+
+        -
+          tags: [specialChars]
+          table:
+            12: [login, password]
+            13: [$hello##, normalPass]
+            14: [normalUser, p@$$word]
+
+    - type:     scenario
+      title:    A regular scenario
+      line:     21
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 22 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "user"',       line: 23 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "password"', line: 24 }
+
+    - type:     outline
+      title:    Scenario outline with it's own example table
+      line:     26
+      steps:
+        - { keyword_type: 'Given', type: 'Given', text: 'I have browsed to login page', line: 27 }
+        - { keyword_type: 'When',  type: 'When',   text: 'I fill in "login" with "<login>"',       line: 28 }
+        - { keyword_type: 'When',  type: 'And',    text: 'I fill in "password" with "<password>"', line: 29 }
+      examples:
+        31: [ login, password ]
+        32: [ hello, world ]
+        33: [ user , pass ]

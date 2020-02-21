@@ -34,7 +34,7 @@ class BackgroundNode implements ScenarioLikeInterface
      */
     private $line;
     /**
-     * @var ExampleTableNode
+     * @var ExampleTableNode[]
      */
     private $exampleTable;
 
@@ -45,7 +45,7 @@ class BackgroundNode implements ScenarioLikeInterface
      * @param StepNode[]  $steps
      * @param string      $keyword
      * @param integer     $line
-     * @param null|ExampleTableNode $exampleTable
+     * @param null|ExampleTableNode|ExampleTableNode[] $exampleTable
      */
     public function __construct($title, array $steps, $keyword, $line, $exampleTable=null)
     {
@@ -53,7 +53,15 @@ class BackgroundNode implements ScenarioLikeInterface
         $this->steps = $steps;
         $this->keyword = $keyword;
         $this->line = $line;
-        $this->exampleTable = $exampleTable;
+        if ($exampleTable === null) {
+            $this->exampleTable = null;
+        }else if (is_array($exampleTable)) {
+            if (!empty($exampleTable)) {
+                $this->exampleTable = $exampleTable;
+            }
+        } else {
+            $this->$exampleTable = array($exampleTable);
+        }
     }
 
     /**
@@ -123,16 +131,26 @@ class BackgroundNode implements ScenarioLikeInterface
      */
     public function hasExamples()
     {
-        return $this->exampleTable !== null;
+        return $this->exampleTable !== null && count($this->exampleTable) > 0;
     }
 
     /**
      * Returns if background has ExampleTable
      *
-     * @return null|ExampleTableNode
+     * @return null|ExampleTableNode[]
      */
     public function getExamples()
     {
         return $this->exampleTable;
+    }
+
+    /**
+     * Add example Table to the background Node
+     *
+     * @param ExampleTableNode
+     */
+    public function addExample($table)
+    {
+        $this->exampleTable[] = $table;
     }
 }

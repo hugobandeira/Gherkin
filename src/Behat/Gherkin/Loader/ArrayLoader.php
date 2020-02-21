@@ -119,22 +119,25 @@ class ArrayLoader implements LoaderInterface
 
         $steps = $this->loadStepsHash($hash['steps']);
 
-        if (isset($hash['examples']['keyword'])) {
-            $examplesKeyword = $hash['examples']['keyword'];
-            unset($hash['examples']['keyword']);
-        } else {
-            $examplesKeyword = 'Examples';
-        }
+        $examples = array();
         if (isset($hash['examples'])) {
-            $examplesTable = $hash['examples'];
-        } else {
-            $examplesTable = array();
+            if (isset($hash['examples']['keyword'])) {
+                $examplesKeyword = $hash['examples']['keyword'];
+                unset($hash['examples']['keyword']);
+            } else {
+                $examplesKeyword = 'Examples';
+            }
+
+            $exHash = $hash['examples'];
+
+            if ($this->examplesAreInArray($exHash)) {
+                $examples = $this->processExamplesArray($exHash, $examplesKeyword, $examples);
+            } else {
+                // examples as a single table - we create an array with the only one element
+                $examples[] = new ExampleTableNode($exHash, $examplesKeyword);;
+            }
         }
-        if (\count($examplesTable) === 0) {
-            $examples = null;
-        } else {
-            $examples = new ExampleTableNode($examplesTable, $examplesKeyword);
-        }
+
         return new BackgroundNode($hash['title'], $steps, $hash['keyword'], $hash['line'], $examples);
     }
 
