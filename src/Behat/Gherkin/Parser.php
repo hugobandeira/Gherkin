@@ -290,8 +290,7 @@ class Parser
                     ));
                 }
             }
-        }
-        if ($background !== null && $background->hasExamples()) {;
+        } else {
             foreach ($scenarios as $scenario) {
                 if ($scenario instanceof OutlineNode && !$scenario->hasExamples()) {
                     $scenario->setExampleTable($background->getExamples());
