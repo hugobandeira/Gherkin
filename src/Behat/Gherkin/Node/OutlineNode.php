@@ -167,7 +167,7 @@ class OutlineNode implements ScenarioInterface
      */
     public function setExampleTable($table)
     {
-        $this->tables = $table;
+        $this->tables[] = $table;
     }
 
     /**
