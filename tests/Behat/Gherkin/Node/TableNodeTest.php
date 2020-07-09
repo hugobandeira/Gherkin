@@ -7,11 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class TableNodeTest extends TestCase
 {
-    /**
-     * @expectedException \Behat\Gherkin\Exception\NodeException
-     */
     public function testConstructorExpectsSameNumberOfColumnsInEachRow()
     {
+        $this->expectException("\Behat\Gherkin\Exception\NodeException");
         new TableNode(array(
             array('username', 'password'),
             array('everzet'),
@@ -32,11 +30,11 @@ class TableNodeTest extends TestCase
 
     /**
      * @dataProvider constructorTestDataProvider
-     * @expectedException \Behat\Gherkin\Exception\NodeException
-     * @expectedExceptionMessage Table is not two-dimensional.
      */
     public function testConstructorExpectsTwoDimensionalArrays($table)
     {
+        $this->expectException("\Behat\Gherkin\Exception\NodeException");
+        $this->expectExceptionMessage("Table is not two-dimensional.");
         new TableNode($table);
     }
 
@@ -256,11 +254,9 @@ TABLE;
         $this->assertEquals($expected, $table);
     }
 
-    /**
-     * @expectedException \Behat\Gherkin\Exception\NodeException
-     */
     public function testGetTableFromListWithMultidimensionalArrayArgument()
     {
+        $this->expectException("\Behat\Gherkin\Exception\NodeException");
         TableNode::fromList(array(
             array(1, 2, 3),
             array(4, 5, 6)
